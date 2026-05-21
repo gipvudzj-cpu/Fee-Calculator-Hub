@@ -51,8 +51,10 @@
       totalFees: totalFees,
       totalCosts: totalCosts,
       profitBeforeAds: profitBeforeAds,
+      profitAfterAds: netProfit,
       netProfit: netProfit,
       profitMargin: ratio(netProfit, grossRevenue),
+      roi: ratio(netProfit, input.cogs),
       maxAdSpendBeforeLoss: profitBeforeAds,
       effectiveFeeRate: ratio(totalFees, grossRevenue),
     };
@@ -100,6 +102,7 @@
       totalCosts: totalCosts,
       netProfit: netProfit,
       profitMargin: ratio(netProfit, orderTotal),
+      roi: ratio(netProfit, input.cogs),
     };
   }
 
@@ -120,10 +123,9 @@
       number(input.packagingCost) +
       number(input.appOrderCost);
     var totalFees = paymentFee + returnAllowance;
+    var maxAdSpendBeforeLoss = revenue - totalFees - totalCosts;
     var netProfit =
-      revenue -
-      totalFees -
-      totalCosts -
+      maxAdSpendBeforeLoss -
       number(input.adSpend);
 
     return {
@@ -135,6 +137,8 @@
       totalCosts: totalCosts,
       netProfit: netProfit,
       profitMargin: ratio(netProfit, revenue),
+      roi: ratio(netProfit, input.cogs),
+      maxAdSpendBeforeLoss: maxAdSpendBeforeLoss,
     };
   }
 
@@ -152,6 +156,7 @@
     var totalFees = baseFee + crossBorderFee + currencyConversionFee;
 
     return {
+      grossRevenue: transactionAmount,
       transactionAmount: transactionAmount,
       baseFee: baseFee,
       crossBorderFee: crossBorderFee,
@@ -172,7 +177,8 @@
       transactionAmount * safeRate(input.internationalCardRate);
     var currencyConversionFee =
       transactionAmount * safeRate(input.currencyConversionRate);
-    var disputeAllowance = number(input.disputeAllowance);
+    var disputeAllowance =
+      transactionAmount * safeRate(input.disputeAllowanceRate);
     var totalFees =
       processingFee +
       internationalFee +
@@ -180,6 +186,7 @@
       disputeAllowance;
 
     return {
+      grossRevenue: transactionAmount,
       transactionAmount: transactionAmount,
       processingFee: processingFee,
       internationalFee: internationalFee,
@@ -209,6 +216,7 @@
     var breakEvenAdSpend = revenue - nonAdCosts;
 
     return {
+      grossRevenue: revenue,
       revenue: revenue,
       platformFee: platformFee,
       paymentFee: paymentFee,
@@ -241,6 +249,7 @@
     return {
       fixedCosts: fixedCosts,
       percentageCostRate: percentageCostRate,
+      denominator: denominator,
       requiredPrice: reachable ? fixedCosts / denominator : 0,
       reachable: reachable,
     };
