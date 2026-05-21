@@ -16,14 +16,19 @@ $root = Split-Path -Parent $PSScriptRoot
 $indexPath = Join-Path $root "index.html"
 $stylesPath = Join-Path $root "styles.css"
 $scriptPath = Join-Path $root "script.js"
+$calculatorCorePath = Join-Path $root "calculator-core.js"
+$ratesPath = Join-Path $root "rates.js"
 
 Assert-FileExists $indexPath
 Assert-FileExists $stylesPath
 Assert-FileExists $scriptPath
+Assert-FileExists $calculatorCorePath
+Assert-FileExists $ratesPath
 
 $html = Get-Content -LiteralPath $indexPath -Raw -Encoding UTF8
 $css = Get-Content -LiteralPath $stylesPath -Raw -Encoding UTF8
 $js = Get-Content -LiteralPath $scriptPath -Raw -Encoding UTF8
+$rates = Get-Content -LiteralPath $ratesPath -Raw -Encoding UTF8
 $zh = -join ([char]0x4E2D, [char]0x6587)
 
 $requiredHtml = @(
@@ -79,6 +84,22 @@ $requiredJs = @(
 
 foreach ($item in $requiredJs) {
     Assert-Contains $js $item
+}
+
+$requiredRates = @(
+    "ratesLastUpdated",
+    "United States",
+    "tiktokShopUS",
+    "etsyUS",
+    "stripeUS",
+    "paypalUS",
+    "sourceUrl",
+    "Coming soon",
+    "Use custom rates"
+)
+
+foreach ($item in $requiredRates) {
+    Assert-Contains $rates $item
 }
 
 Write-Host "Site smoke checks passed."
