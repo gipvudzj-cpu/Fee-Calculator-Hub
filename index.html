@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ListingPilot AI - Ecommerce Listing Workspace</title>
+    <meta name="description" content="A focused AI workspace mockup for cross-border ecommerce sellers to optimize listings, translate content, and reply to reviews.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" aria-label="Primary navigation">
+            <button class="brand" type="button" data-panel="dashboard" aria-label="Open dashboard">
+                <span class="brand-mark">LP</span>
+                <span>
+                    <strong>ListingPilot AI</strong>
+                    <small>Seller workspace</small>
+                </span>
+            </button>
+
+            <nav class="nav-list">
+                <button class="nav-item active" type="button" data-panel="dashboard">
+                    <span class="nav-icon" aria-hidden="true">D</span>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" type="button" data-panel="listings">
+                    <span class="nav-icon" aria-hidden="true">L</span>
+                    <span>Listings</span>
+                </button>
+                <button class="nav-item" type="button" data-panel="reviews">
+                    <span class="nav-icon" aria-hidden="true">R</span>
+                    <span>Reviews</span>
+                </button>
+                <button class="nav-item" type="button" data-panel="translation">
+                    <span class="nav-icon" aria-hidden="true">T</span>
+                    <span>Translation</span>
+                </button>
+                <button class="nav-item" type="button" data-panel="insights">
+                    <span class="nav-icon" aria-hidden="true">I</span>
+                    <span>Insights</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="status-dot"></span>
+                <span>AI engine online</span>
+            </div>
+        </aside>
+
+        <main class="main-area">
+            <header class="topbar">
+                <div class="search-box">
+                    <span aria-hidden="true">Search</span>
+                    <input type="search" placeholder="Search listing, keyword, review">
+                </div>
+                <div class="topbar-actions">
+                    <button class="select-button" type="button" data-action="marketplace-menu">Amazon US</button>
+                    <button class="select-button" type="button" data-action="language-menu">English</button>
+                    <button class="icon-button" type="button" data-action="notifications" aria-label="Open notifications">N</button>
+                    <button class="avatar-button" type="button" data-action="profile-menu" aria-label="Open profile">MJ</button>
+                </div>
+            </header>
+
+            <section class="workspace" aria-label="Listing optimizer workspace">
+                <div class="workspace-heading">
+                    <div>
+                        <p class="eyebrow">Cross-border ecommerce</p>
+                        <h1>Listing Optimizer</h1>
+                    </div>
+                    <div class="heading-actions">
+                        <button class="ghost-button" type="button" data-action="open-history">History</button>
+                        <button class="primary-button" type="button" data-action="generate-listing">Generate Listing</button>
+                    </div>
+                </div>
+
+                <section class="grid-layout">
+                    <article class="panel input-panel">
+                        <div class="panel-header">
+                            <div>
+                                <h2>Product Brief</h2>
+                                <p>Enter the source details once, then reuse them across listing tasks.</p>
+                            </div>
+                            <button class="icon-button compact" type="button" data-action="brief-help" aria-label="Open brief help">?</button>
+                        </div>
+
+                        <form class="brief-form">
+                            <label>
+                                <span>Product Name</span>
+                                <input id="productName" type="text" value="Reusable Insulated Water Bottle">
+                            </label>
+                            <label>
+                                <span>Keywords</span>
+                                <textarea id="keywords" rows="4">stainless steel bottle, leakproof lid, keeps drinks cold, gym bottle, travel bottle</textarea>
+                            </label>
+                            <div class="form-row">
+                                <label>
+                                    <span>Marketplace</span>
+                                    <select id="marketplace">
+                                        <option>Amazon US</option>
+                                        <option>Shopify</option>
+                                        <option>Etsy</option>
+                                        <option>TikTok Shop</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    <span>Tone</span>
+                                    <select id="tone">
+                                        <option>Benefit-led</option>
+                                        <option>Premium</option>
+                                        <option>Friendly</option>
+                                        <option>Technical</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <label>
+                                <span>Source Language</span>
+                                <select id="sourceLanguage">
+                                    <option>English</option>
+                                    <option>中文</option>
+                                    <option>Spanish</option>
+                                    <option>German</option>
+                                </select>
+                            </label>
+                        </form>
+
+                        <div class="mini-tools">
+                            <button type="button" data-action="keyword-cleaner">Clean Keywords</button>
+                            <button type="button" data-action="competitor-scan">Competitor Scan</button>
+                            <button type="button" data-action="image-prompts">Image Prompts</button>
+                        </div>
+                    </article>
+
+                    <article class="panel preview-panel">
+                        <div class="panel-header">
+                            <div>
+                                <h2>AI Listing Preview</h2>
+                                <p>Optimized for search intent, conversion, and marketplace clarity.</p>
+                            </div>
+                            <div class="score-badge">
+                                <strong id="seoScore">92</strong>
+                                <span>SEO Score</span>
+                            </div>
+                        </div>
+
+                        <div class="preview-stack">
+                            <section class="preview-block">
+                                <div class="block-title">
+                                    <h3>Title</h3>
+                                    <button type="button" data-action="copy-title">Copy</button>
+                                </div>
+                                <p id="listingTitle">Reusable Insulated Water Bottle, Leakproof Stainless Steel Travel Cup for Gym, Work, and Outdoor Trips</p>
+                            </section>
+
+                            <section class="preview-block">
+                                <div class="block-title">
+                                    <h3>Bullet Points</h3>
+                                    <button type="button" data-action="export-listing">Export</button>
+                                </div>
+                                <ul id="bulletList">
+                                    <li>Keeps drinks cold for long days at work, workouts, and weekend travel.</li>
+                                    <li>Leakproof lid helps protect bags, desks, and car seats from spills.</li>
+                                    <li>Durable stainless steel body fits daily routines without plastic taste.</li>
+                                </ul>
+                            </section>
+
+                            <section class="preview-block">
+                                <div class="block-title">
+                                    <h3>Description</h3>
+                                    <button type="button" data-action="translate-listing">Translate</button>
+                                </div>
+                                <p id="descriptionText">A reliable daily bottle designed for busy shoppers who need cold drinks, clean style, and a secure lid in one compact product.</p>
+                            </section>
+                        </div>
+                    </article>
+                </section>
+
+                <section class="bottom-grid">
+                    <article class="panel product-card">
+                        <div class="product-visual" role="img" aria-label="Reusable insulated water bottle product illustration">
+                            <div class="bottle-cap"></div>
+                            <div class="bottle-body"></div>
+                            <div class="bottle-highlight"></div>
+                        </div>
+                        <div class="product-info">
+                            <div class="tabs" role="tablist" aria-label="Marketplace tabs">
+                                <button class="tab active" type="button" data-action="tab-amazon">Amazon</button>
+                                <button class="tab" type="button" data-action="tab-shopify">Shopify</button>
+                                <button class="tab" type="button" data-action="tab-etsy">Etsy</button>
+                            </div>
+                            <h2>Insulated Water Bottle</h2>
+                            <p>Sales badge: Best fit for travel and fitness buyers.</p>
+                            <div class="metric-row">
+                                <span class="badge amber">High intent</span>
+                                <span>4.8 stars</span>
+                                <span>1.2k reviews</span>
+                            </div>
+                            <button class="secondary-button" type="button" data-action="open-product">Open Product Window</button>
+                        </div>
+                    </article>
+
+                    <article class="panel review-panel">
+                        <div class="panel-header">
+                            <div>
+                                <h2>Review Reply Assistant</h2>
+                                <p>Draft fast replies without losing brand voice.</p>
+                            </div>
+                            <span class="badge blue">New review</span>
+                        </div>
+                        <div class="review-card">
+                            <p class="quote">"The bottle looks great and keeps water cold, but the delivery box arrived damaged."</p>
+                            <div class="reply-draft">
+                                <strong>AI reply draft</strong>
+                                <p>Thank you for the helpful feedback. We are glad the bottle is working well, and we are sorry the delivery box arrived damaged. Please contact us so we can make this right.</p>
+                            </div>
+                        </div>
+                        <div class="review-actions">
+                            <button type="button" data-action="draft-reply">Edit Draft</button>
+                            <button type="button" data-action="approve-reply">Approve</button>
+                            <button type="button" data-action="schedule-reply">Schedule</button>
+                        </div>
+                    </article>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+        <div class="modal-backdrop" data-action="close-modal"></div>
+        <section class="modal-window">
+            <button class="icon-button modal-close" type="button" data-action="close-modal" aria-label="Close window">X</button>
+            <p class="eyebrow" id="modalKicker">Window</p>
+            <h2 id="modalTitle">Window title</h2>
+            <div id="modalBody"></div>
+        </section>
+    </div>
+
+    <div class="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
