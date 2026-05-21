@@ -3,226 +3,208 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ListingPilot AI - Ecommerce Listing Workspace</title>
-    <meta name="description" content="A focused AI workspace mockup for cross-border ecommerce sellers to optimize listings, translate content, and reply to reviews.">
+    <title>Seller Fee Calculators for Ecommerce Profit Margins | Seller Margin Tools</title>
+    <meta name="description" content="Calculate real ecommerce seller profit after marketplace fees, payment fees, shipping, ads, commissions, and product costs.">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="app-shell">
-        <aside class="sidebar" aria-label="Primary navigation">
-            <button class="brand" type="button" data-panel="dashboard" aria-label="Open dashboard">
-                <span class="brand-mark">LP</span>
-                <span>
-                    <strong>ListingPilot AI</strong>
-                    <small>Seller workspace</small>
-                </span>
-            </button>
+<body data-page="home">
+    <header class="site-header">
+        <a class="brand" href="index.html" aria-label="Seller Margin Tools home">
+            <span class="brand-mark">SM</span>
+            <span>
+                <strong>Seller Margin Tools</strong>
+                <small>Fee calculators for ecommerce sellers</small>
+            </span>
+        </a>
+        <button class="menu-button" type="button" data-action="toggle-menu" aria-expanded="false" aria-controls="siteNav">Menu</button>
+        <nav class="site-nav" id="siteNav" aria-label="Primary navigation">
+            <a href="tiktok-shop-fee-calculator.html">TikTok Shop</a>
+            <a href="etsy-fee-calculator.html">Etsy</a>
+            <a href="shopify-profit-calculator.html">Shopify</a>
+            <a href="break-even-roas-calculator.html">ROAS</a>
+            <a href="about.html">About</a>
+            <label class="region-control">
+                <span>Region</span>
+                <select data-region-select aria-label="Default rate region">
+                    <option value="US">United States</option>
+                    <option value="UK">United Kingdom</option>
+                    <option value="CA">Canada</option>
+                    <option value="AU">Australia</option>
+                    <option value="EU">European Union</option>
+                    <option value="SEA">Southeast Asia</option>
+                </select>
+            </label>
+        </nav>
+    </header>
 
-            <nav class="nav-list">
-                <button class="nav-item active" type="button" data-panel="dashboard">
-                    <span class="nav-icon" aria-hidden="true">D</span>
-                    <span>Dashboard</span>
-                </button>
-                <button class="nav-item" type="button" data-panel="listings">
-                    <span class="nav-icon" aria-hidden="true">L</span>
-                    <span>Listings</span>
-                </button>
-                <button class="nav-item" type="button" data-panel="reviews">
-                    <span class="nav-icon" aria-hidden="true">R</span>
-                    <span>Reviews</span>
-                </button>
-                <button class="nav-item" type="button" data-panel="translation">
-                    <span class="nav-icon" aria-hidden="true">T</span>
-                    <span>Translation</span>
-                </button>
-                <button class="nav-item" type="button" data-panel="insights">
-                    <span class="nav-icon" aria-hidden="true">I</span>
-                    <span>Insights</span>
-                </button>
-            </nav>
-
-            <div class="sidebar-footer">
-                <span class="status-dot"></span>
-                <span>AI engine online</span>
+    <main>
+        <section class="hero-calculator">
+            <div class="hero-copy">
+                <p class="eyebrow">United States default · Rates editable</p>
+                <h1>Seller Fee Calculators for Ecommerce Profit Margins</h1>
+                <p>Calculate real seller profit after marketplace fees, payment fees, shipping, ads, commissions, and product costs.</p>
+                <div class="trust-strip" data-rate-meta>Last updated May 21, 2026</div>
             </div>
-        </aside>
 
-        <main class="main-area">
-            <header class="topbar">
-                <div class="search-box">
-                    <span aria-hidden="true">Search</span>
-                    <input type="search" placeholder="Search listing, keyword, review">
+            <form class="calculator-card compact-calculator" data-home-calculator>
+                <div class="section-heading">
+                    <h2>Quick margin snapshot</h2>
+                    <p>Default calculator: TikTok Shop US</p>
                 </div>
-                <div class="topbar-actions">
-                    <button class="select-button" type="button" data-action="marketplace-menu">Amazon US</button>
-                    <button class="select-button" type="button" data-action="language-menu">English</button>
-                    <button class="icon-button" type="button" data-action="notifications" aria-label="Open notifications">N</button>
-                    <button class="avatar-button" type="button" data-action="profile-menu" aria-label="Open profile">MJ</button>
+                <div class="field-grid">
+                    <label>
+                        <span>Item price</span>
+                        <input name="itemPrice" type="number" step="0.01" value="30">
+                    </label>
+                    <label>
+                        <span>Buyer-paid shipping</span>
+                        <input name="buyerPaidShipping" type="number" step="0.01" value="0">
+                    </label>
+                    <label>
+                        <span>Seller discount</span>
+                        <input name="sellerDiscount" type="number" step="0.01" value="0">
+                    </label>
+                    <label>
+                        <span>COGS</span>
+                        <input name="cogs" type="number" step="0.01" value="8">
+                    </label>
+                    <label>
+                        <span>Marketplace fee rate</span>
+                        <input name="referralFeeRate" type="number" step="0.001" value="0.06" data-rate-field>
+                    </label>
+                    <label>
+                        <span>Affiliate commission</span>
+                        <input name="affiliateCommissionRate" type="number" step="0.001" value="0.10">
+                    </label>
+                    <label>
+                        <span>Shipping / fulfillment</span>
+                        <input name="combinedShippingCost" type="number" step="0.01" value="5">
+                    </label>
+                    <label>
+                        <span>Ad spend per order</span>
+                        <input name="adSpend" type="number" step="0.01" value="4">
+                    </label>
                 </div>
-            </header>
+            </form>
 
-            <section class="workspace" aria-label="Listing optimizer workspace">
-                <div class="workspace-heading">
+            <aside class="result-card" data-home-results aria-live="polite">
+                <p class="eyebrow">Estimated result</p>
+                <strong class="result-primary">$0.00</strong>
+                <span>Net profit</span>
+                <dl class="metric-list">
                     <div>
-                        <p class="eyebrow">Cross-border ecommerce</p>
-                        <h1>Listing Optimizer</h1>
+                        <dt>Margin</dt>
+                        <dd data-result="profitMargin">0%</dd>
                     </div>
-                    <div class="heading-actions">
-                        <button class="ghost-button" type="button" data-action="open-history">History</button>
-                        <button class="primary-button" type="button" data-action="generate-listing">Generate Listing</button>
+                    <div>
+                        <dt>Total fees</dt>
+                        <dd data-result="totalFees">$0.00</dd>
                     </div>
-                </div>
+                    <div>
+                        <dt>Max ad spend</dt>
+                        <dd data-result="maxAdSpendBeforeLoss">$0.00</dd>
+                    </div>
+                </dl>
+                <a class="primary-link" href="tiktok-shop-fee-calculator.html">Open full TikTok Shop calculator</a>
+            </aside>
+        </section>
 
-                <section class="grid-layout">
-                    <article class="panel input-panel">
-                        <div class="panel-header">
-                            <div>
-                                <h2>Product Brief</h2>
-                                <p>Enter the source details once, then reuse them across listing tasks.</p>
-                            </div>
-                            <button class="icon-button compact" type="button" data-action="brief-help" aria-label="Open brief help">?</button>
-                        </div>
+        <section class="content-section" aria-labelledby="calculatorDirectory">
+            <div class="section-heading">
+                <p class="eyebrow">Calculator directory</p>
+                <h2 id="calculatorDirectory">Choose a seller margin calculator</h2>
+            </div>
+            <div class="tool-grid">
+                <a class="tool-card" href="tiktok-shop-fee-calculator.html">
+                    <strong>TikTok Shop Fee Calculator</strong>
+                    <span>Referral fees, creator commission, ads, shipping, and product costs.</span>
+                </a>
+                <a class="tool-card" href="etsy-fee-calculator.html">
+                    <strong>Etsy Fee Calculator</strong>
+                    <span>Listing fees, transaction fees, payment processing, Offsite Ads, and shipping.</span>
+                </a>
+                <a class="tool-card" href="shopify-profit-calculator.html">
+                    <strong>Shopify Profit Calculator</strong>
+                    <span>DTC order profit after processing, shipping, packaging, app costs, returns, and ads.</span>
+                </a>
+                <a class="tool-card" href="paypal-fee-calculator.html">
+                    <strong>PayPal Fee Calculator</strong>
+                    <span>Estimate PayPal fees and net received after fixed and percentage fees.</span>
+                </a>
+                <a class="tool-card" href="stripe-fee-calculator.html">
+                    <strong>Stripe Fee Calculator</strong>
+                    <span>Estimate Stripe processing fees, international card fees, and net received.</span>
+                </a>
+                <a class="tool-card" href="break-even-roas-calculator.html">
+                    <strong>Break-even ROAS Calculator</strong>
+                    <span>Find the ROAS and ad spend limit before ecommerce ads lose money.</span>
+                </a>
+                <a class="tool-card" href="product-pricing-calculator.html">
+                    <strong>Product Pricing Calculator</strong>
+                    <span>Calculate the selling price needed to reach a target profit margin.</span>
+                </a>
+            </div>
+        </section>
 
-                        <form class="brief-form">
-                            <label>
-                                <span>Product Name</span>
-                                <input id="productName" type="text" value="Reusable Insulated Water Bottle">
-                            </label>
-                            <label>
-                                <span>Keywords</span>
-                                <textarea id="keywords" rows="4">stainless steel bottle, leakproof lid, keeps drinks cold, gym bottle, travel bottle</textarea>
-                            </label>
-                            <div class="form-row">
-                                <label>
-                                    <span>Marketplace</span>
-                                    <select id="marketplace">
-                                        <option>Amazon US</option>
-                                        <option>Shopify</option>
-                                        <option>Etsy</option>
-                                        <option>TikTok Shop</option>
-                                    </select>
-                                </label>
-                                <label>
-                                    <span>Tone</span>
-                                    <select id="tone">
-                                        <option>Benefit-led</option>
-                                        <option>Premium</option>
-                                        <option>Friendly</option>
-                                        <option>Technical</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <label>
-                                <span>Source Language</span>
-                                <select id="sourceLanguage">
-                                    <option>English</option>
-                                    <option>中文</option>
-                                    <option>Spanish</option>
-                                    <option>German</option>
-                                </select>
-                            </label>
-                        </form>
+        <section class="content-section split-section">
+            <div>
+                <p class="eyebrow">Hidden fee example</p>
+                <h2>A $30 sale can become a much smaller profit</h2>
+                <p>Platform fees are only one part of seller margin. Ads, affiliate commissions, fulfillment, shipping labels, packaging, returns, and COGS can change the result fast.</p>
+            </div>
+            <table class="breakdown-table">
+                <caption>Compact ecommerce fee example</caption>
+                <tbody>
+                    <tr>
+                        <th scope="row">Sale price</th>
+                        <td>$30.00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Referral fee</th>
+                        <td>-$1.80</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Creator commission</th>
+                        <td>-$3.00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">COGS/shipping</th>
+                        <td>-$13.00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ad spend</th>
+                        <td>-$4.00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Estimated net profit</th>
+                        <td>$8.20</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-                        <div class="mini-tools">
-                            <button type="button" data-action="keyword-cleaner">Clean Keywords</button>
-                            <button type="button" data-action="competitor-scan">Competitor Scan</button>
-                            <button type="button" data-action="image-prompts">Image Prompts</button>
-                        </div>
-                    </article>
+        <section class="content-section">
+            <p class="eyebrow">Transparent calculator assumptions</p>
+            <h2>Built for sellers who need editable math</h2>
+            <p>Each calculator is designed to show editable rates, formulas, examples, source links, and update dates so sellers can check the assumptions behind the estimate.</p>
+            <p>Seller Margin Tools provides educational estimates only. The calculators are not tax, legal, accounting, or platform policy advice.</p>
+        </section>
+    </main>
 
-                    <article class="panel preview-panel">
-                        <div class="panel-header">
-                            <div>
-                                <h2>AI Listing Preview</h2>
-                                <p>Optimized for search intent, conversion, and marketplace clarity.</p>
-                            </div>
-                            <div class="score-badge">
-                                <strong id="seoScore">92</strong>
-                                <span>SEO Score</span>
-                            </div>
-                        </div>
-
-                        <div class="preview-stack">
-                            <section class="preview-block">
-                                <div class="block-title">
-                                    <h3>Title</h3>
-                                    <button type="button" data-action="copy-title">Copy</button>
-                                </div>
-                                <p id="listingTitle">Reusable Insulated Water Bottle, Leakproof Stainless Steel Travel Cup for Gym, Work, and Outdoor Trips</p>
-                            </section>
-
-                            <section class="preview-block">
-                                <div class="block-title">
-                                    <h3>Bullet Points</h3>
-                                    <button type="button" data-action="export-listing">Export</button>
-                                </div>
-                                <ul id="bulletList">
-                                    <li>Keeps drinks cold for long days at work, workouts, and weekend travel.</li>
-                                    <li>Leakproof lid helps protect bags, desks, and car seats from spills.</li>
-                                    <li>Durable stainless steel body fits daily routines without plastic taste.</li>
-                                </ul>
-                            </section>
-
-                            <section class="preview-block">
-                                <div class="block-title">
-                                    <h3>Description</h3>
-                                    <button type="button" data-action="translate-listing">Translate</button>
-                                </div>
-                                <p id="descriptionText">A reliable daily bottle designed for busy shoppers who need cold drinks, clean style, and a secure lid in one compact product.</p>
-                            </section>
-                        </div>
-                    </article>
-                </section>
-
-                <section class="bottom-grid">
-                    <article class="panel product-card">
-                        <div class="product-visual" role="img" aria-label="Reusable insulated water bottle product illustration">
-                            <div class="bottle-cap"></div>
-                            <div class="bottle-body"></div>
-                            <div class="bottle-highlight"></div>
-                        </div>
-                        <div class="product-info">
-                            <div class="tabs" role="tablist" aria-label="Marketplace tabs">
-                                <button class="tab active" type="button" data-action="tab-amazon">Amazon</button>
-                                <button class="tab" type="button" data-action="tab-shopify">Shopify</button>
-                                <button class="tab" type="button" data-action="tab-etsy">Etsy</button>
-                            </div>
-                            <h2>Insulated Water Bottle</h2>
-                            <p>Sales badge: Best fit for travel and fitness buyers.</p>
-                            <div class="metric-row">
-                                <span class="badge amber">High intent</span>
-                                <span>4.8 stars</span>
-                                <span>1.2k reviews</span>
-                            </div>
-                            <button class="secondary-button" type="button" data-action="open-product">Open Product Window</button>
-                        </div>
-                    </article>
-
-                    <article class="panel review-panel">
-                        <div class="panel-header">
-                            <div>
-                                <h2>Review Reply Assistant</h2>
-                                <p>Draft fast replies without losing brand voice.</p>
-                            </div>
-                            <span class="badge blue">New review</span>
-                        </div>
-                        <div class="review-card">
-                            <p class="quote">"The bottle looks great and keeps water cold, but the delivery box arrived damaged."</p>
-                            <div class="reply-draft">
-                                <strong>AI reply draft</strong>
-                                <p>Thank you for the helpful feedback. We are glad the bottle is working well, and we are sorry the delivery box arrived damaged. Please contact us so we can make this right.</p>
-                            </div>
-                        </div>
-                        <div class="review-actions">
-                            <button type="button" data-action="draft-reply">Edit Draft</button>
-                            <button type="button" data-action="approve-reply">Approve</button>
-                            <button type="button" data-action="schedule-reply">Schedule</button>
-                        </div>
-                    </article>
-                </section>
-            </section>
-        </main>
-    </div>
+    <footer class="site-footer">
+        <div>
+            <strong>Seller Margin Tools</strong>
+            <p>Calculate real seller profit before fees surprise you.</p>
+        </div>
+        <nav aria-label="Footer navigation">
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="privacy-policy.html">Privacy</a>
+            <a href="terms-of-use.html">Terms</a>
+            <a href="affiliate-disclosure.html">Affiliate Disclosure</a>
+            <a href="disclaimer.html">Disclaimer</a>
+        </nav>
+    </footer>
 
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
         <div class="modal-backdrop" data-action="close-modal"></div>
@@ -236,6 +218,9 @@
 
     <div class="toast" role="status" aria-live="polite" hidden></div>
 
+    <script src="rates.js"></script>
+    <script src="calculator-core.js"></script>
+    <script src="calculator-pages.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
