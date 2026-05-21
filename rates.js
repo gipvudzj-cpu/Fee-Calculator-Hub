@@ -12,50 +12,50 @@
     return {
         ratesLastUpdated: "2026-05-21",
         defaultRegion: "US",
-        regions: {
-            US: {
+        regions: [
+            {
                 id: "US",
                 name: "United States",
-                currencyCode: "USD",
-                currencySymbol: "$",
+                currency: "USD",
+                symbol: "$",
                 status: "active"
             },
-            UK: {
+            {
                 id: "UK",
                 name: "United Kingdom",
-                currencyCode: "GBP",
-                currencySymbol: "£",
+                currency: "GBP",
+                symbol: "£",
                 status: "Coming soon"
             },
-            CA: {
+            {
                 id: "CA",
                 name: "Canada",
-                currencyCode: "CAD",
-                currencySymbol: "C$",
+                currency: "CAD",
+                symbol: "C$",
                 status: "Coming soon"
             },
-            AU: {
+            {
                 id: "AU",
                 name: "Australia",
-                currencyCode: "AUD",
-                currencySymbol: "A$",
+                currency: "AUD",
+                symbol: "A$",
                 status: "Coming soon"
             },
-            EU: {
+            {
                 id: "EU",
                 name: "European Union",
-                currencyCode: "EUR",
-                currencySymbol: "€",
+                currency: "EUR",
+                symbol: "€",
                 status: "Coming soon"
             },
-            SEA: {
+            {
                 id: "SEA",
                 name: "Southeast Asia",
-                currencyCode: "USD",
-                currencySymbol: "$",
+                currency: "USD",
+                symbol: "$",
                 status: "Use custom rates"
             }
-        },
+        ],
         platforms: {
             tiktokShopUS: {
                 regionId: "US",

@@ -88,6 +88,9 @@ foreach ($item in $requiredJs) {
 
 $requiredRates = @(
     "ratesLastUpdated",
+    "regions: [",
+    "currency: ""USD""",
+    "symbol: ""$""",
     "United States",
     "tiktokShopUS",
     "etsyUS",
