@@ -99,11 +99,11 @@ function formatValue(value, type, region) {
         return calculators.money(value).toFixed(2);
     }
 
-    return String(value || "");
+    return String(value ?? "");
 }
 
 function escapeHtml(value) {
-    return String(value || "")
+    return String(value ?? "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")

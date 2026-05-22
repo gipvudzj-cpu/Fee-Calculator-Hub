@@ -153,6 +153,7 @@ $requiredJs = @(
     "data-region-select",
     "SellerCalculators",
     "resolveFieldDefault",
+    "String(value ?? """")",
     "Target margin is not reachable with these fee rates."
 )
 
