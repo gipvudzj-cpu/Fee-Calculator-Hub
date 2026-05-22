@@ -306,7 +306,8 @@ main {
 
 .content-section {
     margin-top: 28px;
-    padding: 26px;
+    padding: 28px 0 0;
+    border-top: 1px solid var(--line);
 }
 
 .section-heading {
@@ -346,8 +347,7 @@ main {
 
 .calculator-card,
 .result-card,
-.tool-card,
-.content-section {
+.tool-card {
     border: 1px solid var(--line);
     border-radius: 8px;
     background: var(--surface);
@@ -391,10 +391,12 @@ label span {
 }
 
 .result-primary {
+    max-width: 100%;
     color: var(--ink);
     font-size: 44px;
     line-height: 1;
     letter-spacing: 0;
+    overflow-wrap: anywhere;
 }
 
 .result-card > span {
@@ -752,8 +754,7 @@ details p {
     }
 
     .calculator-card,
-    .result-card,
-    .content-section {
+    .result-card {
         padding: 18px;
     }
 
