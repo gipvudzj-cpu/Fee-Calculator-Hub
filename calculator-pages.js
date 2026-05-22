@@ -195,21 +195,21 @@ window.SellerCalculatorPages = {
         defaultPlatform: "tiktokShopUS",
         formulaName: "calculateProductPricing",
         fields: [
-            ["cogs", "COGS", 8],
+            ["cogs", "Product cost / COGS", 8],
             ["shippingCost", "Shipping cost", 3],
             ["fulfillmentCost", "Fulfillment cost", 2],
             ["packagingCost", "Packaging cost", 0.5],
-            ["otherFixedCosts", "Other fixed costs", 1],
+            ["otherFixedCosts", "Other fixed per-order costs", 1],
             ["platformFeeRate", "Platform fee rate", 0.06],
             ["paymentFeeRate", "Payment fee rate", 0.03],
             ["fixedPaymentFee", "Fixed payment fee", 0.3],
-            ["targetMargin", "Target margin", 0.25]
+            ["targetMargin", "Target profit margin", 0.25]
         ],
         results: [
-            ["requiredPrice", "Required price", "money"],
+            ["requiredPrice", "Required selling price", "money"],
             ["fixedCosts", "Fixed costs", "money"],
             ["percentageCostRate", "Percentage cost rate", "percent"],
-            ["denominator", "Denominator", "number"]
+            ["denominator", "Pricing denominator", "number"]
         ],
         formula: "Required price = fixed costs / (1 - percentage fee rate - target margin).",
         example: "If the denominator is zero or negative, the target margin is not reachable with those rates.",
