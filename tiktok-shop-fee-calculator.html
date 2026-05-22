@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TikTok Shop Fee Calculator | Seller Margin Tools</title>
+    <meta name="description" content="Calculate TikTok Shop seller profit after referral fees, creator affiliate commission, ads, fulfillment, shipping, packaging, refunds, and product cost.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="calculator" data-calculator="tiktok">
+    <div data-shared-header></div>
+
+    <main class="calculator-page">
+        <section class="calculator-hero">
+            <p class="eyebrow">Seller calculator</p>
+            <h1 data-calculator-title>TikTok Shop Fee Calculator</h1>
+            <p data-calculator-intro>Estimate TikTok Shop profit after referral fees, creator affiliate commission, ad spend, fulfillment, shipping, product cost, packaging, and refund allowance.</p>
+        </section>
+
+        <section class="calculator-layout" aria-label="Calculator">
+            <form class="calculator-card" data-calculator-form></form>
+            <aside class="result-card" data-calculator-results aria-live="polite"></aside>
+        </section>
+
+        <section class="content-section" aria-labelledby="feeBreakdown">
+            <h2 id="feeBreakdown">Fee breakdown</h2>
+            <div data-fee-breakdown></div>
+        </section>
+
+        <section class="content-section" aria-labelledby="formula">
+            <h2 id="formula">Formula</h2>
+            <div data-calculator-formula></div>
+        </section>
+
+        <section class="content-section" aria-labelledby="exampleCalculation">
+            <h2 id="exampleCalculation">Example calculation</h2>
+            <div data-calculator-example></div>
+        </section>
+
+        <section class="content-section" aria-labelledby="feeSources">
+            <h2 id="feeSources">Fee sources</h2>
+            <div data-fee-sources></div>
+        </section>
+
+        <section class="content-section" aria-labelledby="faq">
+            <h2 id="faq">FAQ</h2>
+            <div data-calculator-faq></div>
+        </section>
+
+        <section class="content-section related-links" aria-labelledby="relatedCalculators">
+            <h2 id="relatedCalculators">Related calculators</h2>
+            <a href="tiktok-shop-fee-calculator.html">TikTok Shop Fee Calculator</a>
+            <a href="etsy-fee-calculator.html">Etsy Fee Calculator</a>
+            <a href="shopify-profit-calculator.html">Shopify Profit Calculator</a>
+            <a href="paypal-fee-calculator.html">PayPal Fee Calculator</a>
+            <a href="stripe-fee-calculator.html">Stripe Fee Calculator</a>
+            <a href="break-even-roas-calculator.html">Break-even ROAS Calculator</a>
+            <a href="product-pricing-calculator.html">Product Pricing Calculator</a>
+        </section>
+    </main>
+
+    <div class="modal" hidden>
+        <span id="modalKicker"></span>
+        <h2 id="modalTitle"></h2>
+        <div id="modalBody"></div>
+    </div>
+    <div class="toast" hidden></div>
+
+    <script src="rates.js"></script>
+    <script src="calculator-core.js"></script>
+    <script src="calculator-pages.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
