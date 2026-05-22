@@ -75,7 +75,7 @@ function footerHtml() {
             <nav aria-label="Footer navigation">
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
-                <a href="privacy-policy.html">Privacy</a>
+                <a href="privacy-policy.html">Privacy Policy</a>
                 <a href="terms-of-use.html">Terms</a>
                 <a href="affiliate-disclosure.html">Affiliate Disclosure</a>
                 <a href="disclaimer.html">Disclaimer</a>
