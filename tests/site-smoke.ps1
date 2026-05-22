@@ -13,58 +13,117 @@ function Assert-Contains($Content, $Needle) {
 }
 
 $root = Split-Path -Parent $PSScriptRoot
-$indexPath = Join-Path $root "index.html"
-$stylesPath = Join-Path $root "styles.css"
-$scriptPath = Join-Path $root "script.js"
-$calculatorCorePath = Join-Path $root "calculator-core.js"
-$ratesPath = Join-Path $root "rates.js"
 
-Assert-FileExists $indexPath
-Assert-FileExists $stylesPath
-Assert-FileExists $scriptPath
-Assert-FileExists $calculatorCorePath
-Assert-FileExists $ratesPath
-
-$html = Get-Content -LiteralPath $indexPath -Raw -Encoding UTF8
-$css = Get-Content -LiteralPath $stylesPath -Raw -Encoding UTF8
-$js = Get-Content -LiteralPath $scriptPath -Raw -Encoding UTF8
-$rates = Get-Content -LiteralPath $ratesPath -Raw -Encoding UTF8
-$zh = -join ([char]0x4E2D, [char]0x6587)
-
-$requiredHtml = @(
-    "ListingPilot AI",
-    "Listing Optimizer",
-    "Dashboard",
-    "Listings",
-    "Reviews",
-    "Translation",
-    "Insights",
-    "data-panel=""dashboard""",
-    "data-panel=""listings""",
-    "data-panel=""reviews""",
-    "data-panel=""translation""",
-    "data-panel=""insights""",
-    "data-action=""generate-listing""",
-    "data-action=""copy-title""",
-    "data-action=""export-listing""",
-    "data-action=""translate-listing""",
-    "data-action=""open-product""",
-    "data-action=""draft-reply""",
-    "data-action=""approve-reply""",
-    "data-action=""schedule-reply""",
-    "role=""dialog""",
-    "<option>$zh</option>"
+$requiredFiles = @(
+    "index.html",
+    "styles.css",
+    "script.js",
+    "rates.js",
+    "calculator-core.js",
+    "calculator-pages.js",
+    "tiktok-shop-fee-calculator.html",
+    "etsy-fee-calculator.html",
+    "shopify-profit-calculator.html",
+    "paypal-fee-calculator.html",
+    "stripe-fee-calculator.html",
+    "break-even-roas-calculator.html",
+    "product-pricing-calculator.html",
+    "about.html",
+    "contact.html",
+    "privacy-policy.html",
+    "terms-of-use.html",
+    "affiliate-disclosure.html",
+    "disclaimer.html"
 )
 
-foreach ($item in $requiredHtml) {
-    Assert-Contains $html $item
+foreach ($file in $requiredFiles) {
+    Assert-FileExists (Join-Path $root $file)
+}
+
+$index = Get-Content -LiteralPath (Join-Path $root "index.html") -Raw -Encoding UTF8
+$tiktok = Get-Content -LiteralPath (Join-Path $root "tiktok-shop-fee-calculator.html") -Raw -Encoding UTF8
+$css = Get-Content -LiteralPath (Join-Path $root "styles.css") -Raw -Encoding UTF8
+$js = Get-Content -LiteralPath (Join-Path $root "script.js") -Raw -Encoding UTF8
+$rates = Get-Content -LiteralPath (Join-Path $root "rates.js") -Raw -Encoding UTF8
+$pages = Get-Content -LiteralPath (Join-Path $root "calculator-pages.js") -Raw -Encoding UTF8
+
+$requiredHome = @(
+    "Seller Margin Tools",
+    "Seller Fee Calculators for Ecommerce Profit Margins",
+    "data-home-calculator",
+    "data-home-results",
+    "TikTok Shop Fee Calculator",
+    "Etsy Fee Calculator",
+    "Shopify Profit Calculator",
+    "PayPal Fee Calculator",
+    "Stripe Fee Calculator",
+    "Break-even ROAS Calculator",
+    "Product Pricing Calculator",
+    "Hidden fee example",
+    "Privacy Policy",
+    "Affiliate Disclosure",
+    "Disclaimer"
+)
+
+foreach ($item in $requiredHome) {
+    Assert-Contains $index $item
+}
+
+$requiredTikTok = @(
+    "<h1 data-calculator-title>TikTok Shop Fee Calculator</h1>",
+    "data-calculator=""tiktok""",
+    "data-calculator-form",
+    "data-calculator-results",
+    "Fee breakdown",
+    "Formula",
+    "Example calculation",
+    "Fee sources",
+    "FAQ",
+    "Related calculators"
+)
+
+foreach ($item in $requiredTikTok) {
+    Assert-Contains $tiktok $item
+}
+
+$requiredRates = @(
+    "ratesLastUpdated",
+    "United States",
+    "tiktokShopUS",
+    "etsyUS",
+    "shopifyUS",
+    "stripeUS",
+    "paypalUS",
+    "sourceUrl"
+)
+
+foreach ($item in $requiredRates) {
+    Assert-Contains $rates $item
+}
+
+$requiredPages = @(
+    "TikTok Shop Fee Calculator",
+    "Etsy Fee Calculator",
+    "Shopify Profit Calculator",
+    "PayPal Fee Calculator",
+    "Stripe Fee Calculator",
+    "Break-even ROAS Calculator",
+    "Product Pricing Calculator",
+    "calculateTikTokShop",
+    "calculateProductPricing"
+)
+
+foreach ($item in $requiredPages) {
+    Assert-Contains $pages $item
 }
 
 $requiredCss = @(
-    "@media (max-width: 860px)",
-    ".modal",
-    ".workspace",
-    ".sidebar",
+    "@media (max-width: 760px)",
+    ".site-header",
+    ".hero-calculator",
+    ".calculator-layout",
+    ".result-card",
+    ".breakdown-table",
     "border-radius: 8px"
 )
 
@@ -73,36 +132,16 @@ foreach ($item in $requiredCss) {
 }
 
 $requiredJs = @(
-    "openModal",
-    "closeModal",
-    "showToast",
-    "generateListing",
-    "document.querySelectorAll('[data-panel]')",
-    "document.querySelectorAll('[data-action]')",
-    "data-set-language=""$zh"""
+    "renderHomeCalculator",
+    "renderCalculatorPage",
+    "hydrateRegionSelectors",
+    "formatMoney",
+    "data-region-select",
+    "SellerCalculators"
 )
 
 foreach ($item in $requiredJs) {
     Assert-Contains $js $item
-}
-
-$requiredRates = @(
-    "ratesLastUpdated",
-    "regions: [",
-    "currency: ""USD""",
-    "symbol: ""$""",
-    "United States",
-    "tiktokShopUS",
-    "etsyUS",
-    "stripeUS",
-    "paypalUS",
-    "sourceUrl",
-    "Coming soon",
-    "Use custom rates"
-)
-
-foreach ($item in $requiredRates) {
-    Assert-Contains $rates $item
 }
 
 Write-Host "Site smoke checks passed."
