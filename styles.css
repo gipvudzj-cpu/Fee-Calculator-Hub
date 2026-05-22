@@ -188,6 +188,10 @@ main {
     display: block;
 }
 
+.brand > span {
+    min-width: 0;
+}
+
 .brand strong {
     line-height: 1.15;
 }
@@ -250,8 +254,14 @@ main {
     padding: 28px 0 22px;
 }
 
+.hero-calculator > * {
+    min-width: 0;
+    max-width: 100%;
+}
+
 .hero-copy {
     grid-area: copy;
+    min-width: 0;
     padding: 32px 0;
 }
 
@@ -330,7 +340,10 @@ main {
 .trust-strip {
     display: inline-flex;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 8px;
     max-width: 100%;
+    min-width: 0;
     min-height: 38px;
     padding: 8px 11px;
     border: 1px solid var(--line);
@@ -339,6 +352,15 @@ main {
     color: var(--muted);
     font-size: 13px;
     font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.trust-strip span,
+.trust-strip a {
+    max-width: 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .trust-strip a {
@@ -739,6 +761,8 @@ details p {
     }
 
     .site-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
         padding-right: 12px;
         padding-left: 12px;
     }
@@ -753,22 +777,36 @@ details p {
         grid-template-columns: 1fr;
     }
 
+    .site-nav.open {
+        grid-column: 1 / -1;
+    }
+
     .calculator-card,
     .result-card {
         padding: 18px;
     }
 
     .hero-copy {
+        max-width: calc(100vw - 24px);
         padding-top: 14px;
     }
 
     .hero-copy > p:not(.eyebrow),
     .calculator-hero > p:not(.eyebrow) {
+        max-width: calc(100vw - 24px);
         font-size: 16px;
     }
 
+    .trust-strip {
+        display: flex;
+        width: 100%;
+        max-width: calc(100vw - 24px);
+    }
+
     h1 {
+        max-width: calc(100vw - 24px);
         font-size: clamp(32px, 11vw, 42px);
+        overflow-wrap: break-word;
     }
 
     h2 {
@@ -795,5 +833,30 @@ details p {
 
     .site-footer nav {
         justify-content: flex-start;
+    }
+}
+
+@media (max-width: 520px) {
+    main {
+        width: calc(100% - 24px);
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .site-header {
+        width: 100%;
+    }
+
+    .hero-copy,
+    .hero-copy > p:not(.eyebrow),
+    .calculator-hero > p:not(.eyebrow),
+    .trust-strip,
+    h1 {
+        max-width: 100%;
+    }
+
+    .calculator-card,
+    .result-card {
+        max-width: 100%;
     }
 }
