@@ -1,9 +1,81 @@
 const rates = window.SellerRates;
 const calculators = window.SellerCalculators;
 const pageData = window.SellerCalculatorPages || {};
+const regionIds = rates.regions.map((region) => region.id).sort((a, b) => b.length - a.length);
 
-function getRegion(regionId = rates.defaultRegion) {
+let activeRegionId = getActiveRegionId(rates.defaultRegion);
+
+const fieldDefaultAliases = {
+    percentageFee: ["checkoutRate", "domesticCardRate"],
+    fixedFee: ["fixedFee", "domesticFixedFee"],
+    offsiteAdsRate: ["offsiteAdsLowVolumeRate"],
+    platformFeeRate: ["referralFeeRate"],
+    paymentFeeRate: ["domesticCardRate", "paymentProcessingRate"]
+};
+
+function findRegion(regionId) {
     return rates.regions.find((region) => region.id === regionId) || rates.regions[0];
+}
+
+function getActiveRegionId(regionId) {
+    const requested = findRegion(regionId);
+
+    if (requested && requested.status === "active") {
+        return requested.id;
+    }
+
+    const active = rates.regions.find((region) => region.status === "active");
+    return active ? active.id : rates.defaultRegion;
+}
+
+function getRegion(regionId = activeRegionId) {
+    return findRegion(regionId);
+}
+
+function getPlatformFamily(platformKey) {
+    const regionId = regionIds.find((id) => platformKey.endsWith(id));
+    return regionId ? platformKey.slice(0, -regionId.length) : platformKey;
+}
+
+function getPlatformKeyForRegion(defaultPlatformKey, regionId = activeRegionId) {
+    const defaultPlatform = rates.platforms[defaultPlatformKey] || {};
+
+    if (defaultPlatform.regionId === regionId) {
+        return defaultPlatformKey;
+    }
+
+    const regionalKey = `${getPlatformFamily(defaultPlatformKey)}${regionId}`;
+    return rates.platforms[regionalKey] ? regionalKey : defaultPlatformKey;
+}
+
+function getPlatformForRegion(defaultPlatformKey, regionId = activeRegionId) {
+    const platformKey = getPlatformKeyForRegion(defaultPlatformKey, regionId);
+    return rates.platforms[platformKey] || {};
+}
+
+function resolveFieldDefaultInfo(defaultPlatformKey, fieldName) {
+    const platform = getPlatformForRegion(defaultPlatformKey);
+    const keys = [fieldName].concat(fieldDefaultAliases[fieldName] || []);
+    const matchedKey = keys.find((key) => Object.prototype.hasOwnProperty.call(platform, key));
+
+    return matchedKey ? { found: true, value: platform[matchedKey] } : { found: false };
+}
+
+function resolveFieldDefault(defaultPlatformKey, fieldName, fallbackValue) {
+    const resolved = resolveFieldDefaultInfo(defaultPlatformKey, fieldName);
+    return resolved.found ? resolved.value : fallbackValue;
+}
+
+function applyResolvedRateDefaults(form, defaultPlatformKey) {
+    form.querySelectorAll("input[name]").forEach((field) => {
+        const resolved = resolveFieldDefaultInfo(defaultPlatformKey, field.name);
+
+        if (!resolved.found || field.type === "checkbox") {
+            return;
+        }
+
+        field.value = resolved.value;
+    });
 }
 
 function formatMoney(value, region = getRegion()) {
@@ -98,9 +170,10 @@ function hydrateRegionSelectors() {
     document.querySelectorAll("[data-region-select]").forEach((select) => {
         select.innerHTML = rates.regions.map((region) => {
             const suffix = region.status === "active" ? "" : ` (${region.status})`;
-            return `<option value="${escapeHtml(region.id)}">${escapeHtml(region.name + suffix)}</option>`;
+            const disabled = region.status === "active" ? "" : " disabled";
+            return `<option value="${escapeHtml(region.id)}"${disabled}>${escapeHtml(region.name + suffix)}</option>`;
         }).join("");
-        select.value = rates.defaultRegion;
+        select.value = activeRegionId;
     });
 }
 
@@ -118,25 +191,47 @@ function readForm(form) {
     return values;
 }
 
-function updateRateMeta(platformKey) {
-    const platform = rates.platforms[platformKey] || {};
+function formatDate(dateText) {
+    const date = new Date(`${dateText}T00:00:00Z`);
+
+    if (Number.isNaN(date.getTime())) {
+        return dateText;
+    }
+
+    return date.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+        timeZone: "UTC"
+    });
+}
+
+function updateRateMeta(defaultPlatformKey) {
+    const platform = getPlatformForRegion(defaultPlatformKey);
     const region = getRegion(platform.regionId);
+    const caveat = platform.notes || "Verify rates in your own seller or payment account before making decisions.";
+    const source = platform.sourceUrl && platform.sourceLabel
+        ? ` | <a href="${escapeHtml(platform.sourceUrl)}" rel="nofollow">Source: ${escapeHtml(platform.sourceLabel)}</a>`
+        : "";
 
     document.querySelectorAll("[data-rate-meta]").forEach((target) => {
-        target.innerHTML = `${escapeHtml(region.name)} defaults · Rates editable · Last updated ${escapeHtml(rates.ratesLastUpdated)} · <a href="${escapeHtml(platform.sourceUrl)}" rel="nofollow">Source: ${escapeHtml(platform.sourceLabel)}</a>`;
+        target.innerHTML = `${escapeHtml(region.name)} default market | Editable rates | Last updated ${escapeHtml(formatDate(rates.ratesLastUpdated))}${source} | ${escapeHtml(caveat)}`;
     });
 }
 
 function renderHomeCalculator() {
     const form = document.querySelector("[data-home-calculator]");
     const resultCard = document.querySelector("[data-home-results]");
+    const defaultPlatformKey = getPlatformKeyForRegion("tiktokShopUS");
 
     if (!form || !resultCard) {
         return;
     }
 
-    const platform = rates.platforms.tiktokShopUS;
+    const platform = rates.platforms[defaultPlatformKey];
     const region = getRegion(platform.regionId);
+
+    applyResolvedRateDefaults(form, defaultPlatformKey);
 
     function render() {
         const values = readForm(form);
@@ -155,9 +250,9 @@ function renderHomeCalculator() {
         resultCard.querySelector("[data-result='maxAdSpendBeforeLoss']").textContent = formatMoney(result.maxAdSpendBeforeLoss, region);
     }
 
-    form.addEventListener("input", render);
+    form.oninput = render;
     render();
-    updateRateMeta("tiktokShopUS");
+    updateRateMeta(defaultPlatformKey);
 }
 
 function renderCalculatorPage() {
@@ -170,7 +265,8 @@ function renderCalculatorPage() {
 
     const form = document.querySelector("[data-calculator-form]");
     const results = document.querySelector("[data-calculator-results]");
-    const platform = rates.platforms[config.defaultPlatform] || {};
+    const platformKey = getPlatformKeyForRegion(config.defaultPlatform);
+    const platform = rates.platforms[platformKey] || {};
     const region = getRegion(platform.regionId);
     const sourceText = platform.notes || "Verify rates in your own seller or payment account before making decisions.";
 
@@ -183,16 +279,18 @@ function renderCalculatorPage() {
     setText("[data-formula-copy], [data-calculator-formula]", config.formula);
     setText("[data-example-copy], [data-calculator-example]", config.example);
     setHtml("[data-source-copy], [data-fee-sources]", `<p><a href="${escapeHtml(platform.sourceUrl)}" rel="nofollow">${escapeHtml(platform.sourceLabel)}</a>. ${escapeHtml(sourceText)}</p>`);
-    updateRateMeta(config.defaultPlatform);
+    updateRateMeta(platformKey);
 
     form.innerHTML = `
         <div class="field-grid">
             ${config.fields.map(([name, label, value, type]) => {
+                const defaultValue = resolveFieldDefault(platformKey, name, value);
+
                 if (type === "checkbox") {
-                    return `<label class="checkbox-field"><input name="${escapeHtml(name)}" type="checkbox" ${value ? "checked" : ""}><span>${escapeHtml(label)}</span></label>`;
+                    return `<label class="checkbox-field"><input name="${escapeHtml(name)}" type="checkbox" ${defaultValue ? "checked" : ""}><span>${escapeHtml(label)}</span></label>`;
                 }
 
-                return `<label><span>${escapeHtml(label)}</span><input name="${escapeHtml(name)}" type="number" step="0.001" value="${escapeHtml(value)}"></label>`;
+                return `<label><span>${escapeHtml(label)}</span><input name="${escapeHtml(name)}" type="number" step="0.001" value="${escapeHtml(defaultValue)}"></label>`;
             }).join("")}
         </div>
     `;
@@ -203,9 +301,7 @@ function renderCalculatorPage() {
         const values = readForm(form);
         const result = calculators[config.formulaName](values);
         const [primary, ...secondary] = config.results;
-        const warning = result.profitableBeforeAds === false
-            ? `<p class="warning-text">This product is not profitable before ad spend.</p>`
-            : "";
+        const warning = renderWarnings(result);
 
         results.innerHTML = `
             <p class="eyebrow">Estimated result</p>
@@ -225,8 +321,30 @@ function renderCalculatorPage() {
         renderBreakdownTable(config.results, result, region);
     }
 
-    form.addEventListener("input", render);
+    form.oninput = render;
     render();
+}
+
+function renderWarnings(result) {
+    const messages = [];
+
+    if (result.profitableBeforeAds === false) {
+        messages.push("This product is not profitable before ad spend.");
+    }
+
+    if (result.reachable === false) {
+        messages.push("Target margin is not reachable with these fee rates.");
+    }
+
+    if (
+        messages.length === 0 &&
+        Object.prototype.hasOwnProperty.call(result, "maxAdSpendBeforeLoss") &&
+        result.maxAdSpendBeforeLoss <= 0
+    ) {
+        messages.push("There is no room for ad spend before this order loses money.");
+    }
+
+    return messages.map((message) => `<p class="warning-text">${escapeHtml(message)}</p>`).join("");
 }
 
 function setText(selector, value) {
@@ -289,8 +407,31 @@ function bindMenu() {
     });
 }
 
+function bindRegionSelectors() {
+    document.addEventListener("change", (event) => {
+        const select = event.target.closest("[data-region-select]");
+
+        if (!select) {
+            return;
+        }
+
+        const nextRegion = findRegion(select.value);
+
+        if (!nextRegion || nextRegion.status !== "active") {
+            hydrateRegionSelectors();
+            return;
+        }
+
+        activeRegionId = nextRegion.id;
+        hydrateRegionSelectors();
+        renderHomeCalculator();
+        renderCalculatorPage();
+    });
+}
+
 hydrateSharedLayout();
 hydrateRegionSelectors();
 bindMenu();
+bindRegionSelectors();
 renderHomeCalculator();
 renderCalculatorPage();

@@ -42,6 +42,15 @@ foreach ($file in $requiredFiles) {
 
 $index = Get-Content -LiteralPath (Join-Path $root "index.html") -Raw -Encoding UTF8
 $tiktok = Get-Content -LiteralPath (Join-Path $root "tiktok-shop-fee-calculator.html") -Raw -Encoding UTF8
+$calculatorPages = @(
+    "tiktok-shop-fee-calculator.html",
+    "etsy-fee-calculator.html",
+    "shopify-profit-calculator.html",
+    "paypal-fee-calculator.html",
+    "stripe-fee-calculator.html",
+    "break-even-roas-calculator.html",
+    "product-pricing-calculator.html"
+)
 $css = Get-Content -LiteralPath (Join-Path $root "styles.css") -Raw -Encoding UTF8
 $js = Get-Content -LiteralPath (Join-Path $root "script.js") -Raw -Encoding UTF8
 $rates = Get-Content -LiteralPath (Join-Path $root "rates.js") -Raw -Encoding UTF8
@@ -84,6 +93,11 @@ $requiredTikTok = @(
 
 foreach ($item in $requiredTikTok) {
     Assert-Contains $tiktok $item
+}
+
+foreach ($calculatorPage in $calculatorPages) {
+    $calculatorContent = Get-Content -LiteralPath (Join-Path $root $calculatorPage) -Raw -Encoding UTF8
+    Assert-Contains $calculatorContent "data-rate-meta"
 }
 
 $requiredRates = @(
@@ -137,7 +151,9 @@ $requiredJs = @(
     "hydrateRegionSelectors",
     "formatMoney",
     "data-region-select",
-    "SellerCalculators"
+    "SellerCalculators",
+    "resolveFieldDefault",
+    "Target margin is not reachable with these fee rates."
 )
 
 foreach ($item in $requiredJs) {

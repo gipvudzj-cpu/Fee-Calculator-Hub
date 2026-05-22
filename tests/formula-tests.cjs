@@ -45,6 +45,28 @@ assertClose(tiktok.profitMargin, 0.20333333333333334, "TikTok profitMargin");
 assertClose(tiktok.roi, 0.7625, "TikTok roi");
 assertClose(tiktok.maxAdSpendBeforeLoss, 10.1, "TikTok maxAdSpendBeforeLoss");
 
+const tiktokPromo = calculateTikTokShop({
+  itemPrice: 30,
+  cogs: 8,
+  referralFeeRate: 0.06,
+  newSellerPromoRate: 0.03,
+  useNewSellerPromo: true,
+});
+
+assertClose(tiktokPromo.appliedReferralFeeRate, 0.03, "TikTok promo appliedReferralFeeRate");
+assertClose(tiktokPromo.referralFee, 0.9, "TikTok promo referralFee");
+
+const tiktokNormal = calculateTikTokShop({
+  itemPrice: 30,
+  cogs: 8,
+  referralFeeRate: 0.06,
+  newSellerPromoRate: 0.03,
+  useNewSellerPromo: false,
+});
+
+assertClose(tiktokNormal.appliedReferralFeeRate, 0.06, "TikTok normal appliedReferralFeeRate");
+assertClose(tiktokNormal.referralFee, 1.8, "TikTok normal referralFee");
+
 const etsy = calculateEtsy({
   itemPrice: 30,
   shippingCharged: 5,
@@ -135,6 +157,17 @@ assertClose(pricing.percentageCostRate, 0.09, "Product pricing percentageCostRat
 assertClose(pricing.denominator, 0.66, "Product pricing denominator");
 assertClose(pricing.requiredPrice, 22.424242424242426, "Product pricing requiredPrice");
 assert.equal(pricing.reachable, true, "Product pricing reachable");
+
+const unreachablePricing = calculateProductPricing({
+  cogs: 8,
+  shippingCost: 3,
+  platformFeeRate: 0.65,
+  paymentFeeRate: 0.1,
+  targetMargin: 0.3,
+});
+
+assert.equal(unreachablePricing.reachable, false, "Product pricing unreachable");
+assertClose(unreachablePricing.requiredPrice, 0, "Unreachable product pricing requiredPrice");
 
 const roas = calculateBreakEvenRoas({
   sellingPrice: 30,

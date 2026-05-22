@@ -30,7 +30,10 @@
       number(input.itemPrice) +
       number(input.buyerPaidShipping) -
       number(input.sellerDiscount);
-    var referralFee = grossRevenue * safeRate(input.referralFeeRate);
+    var appliedReferralFeeRate = input.useNewSellerPromo
+      ? safeRate(input.newSellerPromoRate)
+      : safeRate(input.referralFeeRate);
+    var referralFee = grossRevenue * appliedReferralFeeRate;
     var affiliateCommission = grossRevenue * safeRate(input.affiliateCommissionRate);
     var refundAllowance = grossRevenue * safeRate(input.refundAllowanceRate);
     var totalFees = referralFee + affiliateCommission + refundAllowance;
@@ -45,6 +48,7 @@
 
     return {
       grossRevenue: grossRevenue,
+      appliedReferralFeeRate: appliedReferralFeeRate,
       referralFee: referralFee,
       affiliateCommission: affiliateCommission,
       refundAllowance: refundAllowance,

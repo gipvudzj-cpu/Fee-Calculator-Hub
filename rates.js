@@ -24,36 +24,36 @@
                 id: "UK",
                 name: "United Kingdom",
                 currency: "GBP",
-                symbol: "£",
-                status: "Coming soon"
+                symbol: "GBP ",
+                status: "coming soon"
             },
             {
                 id: "CA",
                 name: "Canada",
                 currency: "CAD",
                 symbol: "C$",
-                status: "Coming soon"
+                status: "coming soon"
             },
             {
                 id: "AU",
                 name: "Australia",
                 currency: "AUD",
                 symbol: "A$",
-                status: "Coming soon"
+                status: "coming soon"
             },
             {
                 id: "EU",
                 name: "European Union",
                 currency: "EUR",
-                symbol: "€",
-                status: "Coming soon"
+                symbol: "EUR ",
+                status: "coming soon"
             },
             {
                 id: "SEA",
                 name: "Southeast Asia",
                 currency: "USD",
                 symbol: "$",
-                status: "Use custom rates"
+                status: "use custom rates"
             }
         ],
         platforms: {
