@@ -1,4 +1,2 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://gipvudzj-cpu.github.io/Fee-Calculator-Hub/sitemap.xml
