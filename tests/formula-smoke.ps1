@@ -18,6 +18,10 @@ try {
     if ($LASTEXITCODE -ne 0) {
         throw "Formula tests failed with exit code $LASTEXITCODE."
     }
+    & $node "tests\sankey-renderer-tests.cjs"
+    if ($LASTEXITCODE -ne 0) {
+        throw "Sankey renderer tests failed with exit code $LASTEXITCODE."
+    }
 } finally {
     Pop-Location
 }

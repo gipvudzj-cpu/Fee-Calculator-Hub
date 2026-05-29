@@ -3,28 +3,27 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Seller Fee Calculators for Ecommerce Profit Margins | Seller Margin Tools</title>
-    <meta name="description" content="Calculate real ecommerce seller profit after marketplace fees, payment fees, shipping, ads, commissions, and product costs.">
+    <title>Marketplace Fee Calculators for Ecommerce Sellers | MarginPath</title>
+    <meta name="description" content="Use MarginPath to estimate ecommerce seller profit after marketplace fees, creator commission, shipping, ads, and product cost.">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body data-page="home">
     <header class="site-header">
-        <a class="brand" href="index.html" aria-label="Seller Margin Tools home">
-            <span class="brand-mark">SM</span>
+        <a class="brand" href="index.html" aria-label="MarginPath home">
+            <span class="brand-mark" aria-hidden="true"></span>
             <span>
-                <strong>Seller Margin Tools</strong>
-                <small>Fee calculators for ecommerce sellers</small>
+                <strong>MarginPath</strong>
+                <small>by Northstar Commerce Labs</small>
             </span>
         </a>
         <button class="menu-button" type="button" data-action="toggle-menu" aria-expanded="false" aria-controls="siteNav">Menu</button>
         <nav class="site-nav" id="siteNav" aria-label="Primary navigation">
-            <a href="tiktok-shop-fee-calculator.html">TikTok Shop</a>
-            <a href="etsy-fee-calculator.html">Etsy</a>
-            <a href="shopify-profit-calculator.html">Shopify</a>
-            <a href="break-even-roas-calculator.html">Break-even ROAS</a>
-            <a href="about.html">About</a>
+            <a href="tiktok-shop-fee-calculator.html">TikTok Shop Fee Calculator</a>
+            <a href="etsy-fee-calculator.html">Etsy Fee Calculator</a>
+            <a href="shopify-profit-calculator.html">Shopify Profit Calculator</a>
+            <a href="break-even-roas-calculator.html">ROAS</a>
             <label class="region-control">
-                <span>Region</span>
+                <span>Market</span>
                 <select data-region-select aria-label="Default rate region">
                     <option value="US">United States</option>
                     <option value="UK">United Kingdom</option>
@@ -34,63 +33,109 @@
                     <option value="SEA">Southeast Asia</option>
                 </select>
             </label>
+            <label class="language-control">
+                <span>Language</span>
+                <select data-language-select aria-label="Interface language">
+                    <option value="en">EN</option>
+                    <option value="zh">&#31616;&#20307;&#20013;&#25991;</option>
+                    <option value="es">ES</option>
+                    <option value="de">DE</option>
+                    <option value="fr">FR</option>
+                    <option value="ja">JA</option>
+                    <option value="ko">KO</option>
+                </select>
+            </label>
         </nav>
     </header>
 
     <main>
-        <section class="hero-calculator">
-            <div class="hero-copy">
-                <p class="eyebrow">United States default · Rates editable</p>
-                <h1>Seller Fee Calculators for Ecommerce Profit Margins</h1>
-                <p>Calculate real seller profit after marketplace fees, payment fees, shipping, ads, commissions, and product costs.</p>
-                <div class="trust-strip" data-rate-meta>Last updated May 21, 2026</div>
+        <section class="marginpath-hero" aria-labelledby="homeTitle">
+            <div>
+                <p class="eyebrow">US defaults · Rates editable</p>
+                <h1 id="homeTitle">Marketplace Fee Calculators for Ecommerce Sellers</h1>
+                <p class="hero-lede">Enter a product price and see what is left after platform fees, creator commission, shipping, ads, and product cost.</p>
             </div>
+            <p class="trust-card" data-rate-meta>US defaults. Rates are editable estimates. Verify final fees in your seller or payment account.</p>
+        </section>
 
-            <form class="calculator-card compact-calculator" data-home-calculator>
-                <div class="section-heading">
-                    <h2>Quick margin snapshot</h2>
-                    <p>Default calculator: TikTok Shop US</p>
+        <section class="marginpath-workbench" aria-label="TikTok Shop order profit snapshot">
+            <form class="calculator-card sankey-input-card" data-home-calculator>
+                <div class="card-head">
+                    <div>
+                        <h2>TikTok Shop order snapshot</h2>
+                        <p>Start with price, cost, and ad spend.</p>
+                    </div>
+                    <span class="status-pill">Updated May 2026</span>
                 </div>
-                <div class="field-grid">
-                    <label>
-                        <span>Item price</span>
-                        <input name="itemPrice" type="number" step="0.01" value="30">
-                    </label>
-                    <label>
-                        <span>Buyer-paid shipping</span>
-                        <input name="buyerPaidShipping" type="number" step="0.01" value="0">
-                    </label>
-                    <label>
-                        <span>Seller discount</span>
-                        <input name="sellerDiscount" type="number" step="0.01" value="0">
-                    </label>
-                    <label>
-                        <span>COGS</span>
-                        <input name="cogs" type="number" step="0.01" value="8">
-                    </label>
-                    <label>
-                        <span>Marketplace fee rate</span>
-                        <input name="referralFeeRate" type="number" step="0.001" value="0.06" data-rate-field>
-                    </label>
-                    <label>
-                        <span>Affiliate commission</span>
-                        <input name="affiliateCommissionRate" type="number" step="0.001" value="0.10">
-                    </label>
-                    <label>
-                        <span>Shipping / fulfillment</span>
-                        <input name="combinedShippingCost" type="number" step="0.01" value="5">
-                    </label>
-                    <label>
-                        <span>Ad spend per order</span>
-                        <input name="adSpend" type="number" step="0.01" value="4">
-                    </label>
+
+                <div class="form-groups">
+                    <div class="form-group">
+                        <span class="group-title">Product Information</span>
+                        <label>
+                            <span>Net sales</span>
+                            <input class="primary-input" name="itemPrice" type="number" step="0.01" value="30">
+                        </label>
+                        <label>
+                            <span>Buyer-paid shipping</span>
+                            <input name="buyerPaidShipping" type="number" step="0.01" value="0">
+                        </label>
+                        <label>
+                            <span>COGS</span>
+                            <input name="cogs" type="number" step="0.01" value="8">
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="group-title">Shipping</span>
+                        <label>
+                            <span>Shipping + fulfillment</span>
+                            <input name="combinedShippingCost" type="number" step="0.01" value="5">
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="group-title">Fees & Rates</span>
+                        <label>
+                            <span>Platform commission</span>
+                            <input name="referralFeeRate" type="number" step="0.001" value="0.06" data-rate-field>
+                        </label>
+                        <label>
+                            <span>Affiliate commission</span>
+                            <input name="affiliateCommissionRate" type="number" step="0.001" value="0.10">
+                        </label>
+                        <label>
+                            <span>Ad spend</span>
+                            <input name="adSpend" type="number" step="0.01" value="4">
+                        </label>
+                    </div>
                 </div>
             </form>
 
-            <aside class="result-card" data-home-results aria-live="polite">
-                <p class="eyebrow">Estimated result</p>
+            <section class="sankey-card" data-profit-sankey aria-labelledby="sankeyTitle">
+                <div class="sankey-head">
+                    <div>
+                        <h2 id="sankeyTitle">Profit Flow Visualization</h2>
+                        <p>Sankey diagram for one order. Profit, fees, and costs update as you type.</p>
+                    </div>
+                </div>
+
+                <div class="sankey-stage" aria-hidden="true">
+                    <div class="sankey-canvas alluvial-flow" data-sankey-canvas></div>
+                </div>
+
+                <div class="sankey-mobile-summary" aria-label="Profit flow summary">
+                    <div class="mobile-flow-row positive"><span>Gross Profit</span><b data-sankey="profit">$8.20</b></div>
+                    <div class="mobile-flow-row"><span>COGS</span><b data-sankey="cogs">-$8.00</b></div>
+                    <div class="mobile-flow-row"><span>Affiliate</span><b data-sankey="affiliateCommission">-$3.00</b></div>
+                    <div class="mobile-flow-row"><span>Platform fees</span><b data-sankey="referralFee">-$1.80</b></div>
+                    <div class="mobile-flow-row"><span>Shipping + ads</span><b data-sankey="shippingAds">-$9.00</b></div>
+                </div>
+            </section>
+
+            <aside class="result-card sankey-result-card" data-home-results aria-live="polite">
+                <span class="label">Estimated net profit</span>
                 <strong class="result-primary">$0.00</strong>
-                <span>Net profit</span>
+                <p>Net profit</p>
                 <dl class="metric-list">
                     <div>
                         <dt>Margin</dt>
@@ -101,13 +146,27 @@
                         <dd data-result="totalFees">$0.00</dd>
                     </div>
                     <div>
-                        <dt>Max ad spend</dt>
+                        <dt>Costs</dt>
+                        <dd data-result="totalCosts">$0.00</dd>
+                    </div>
+                    <div>
+                        <dt>Ad room</dt>
                         <dd data-result="maxAdSpendBeforeLoss">$0.00</dd>
                     </div>
                 </dl>
-                <a class="primary-link" href="tiktok-shop-fee-calculator.html">Open full TikTok Shop calculator</a>
+                <section class="seller-receipt" aria-label="Seller receipt">
+                    <h3>Seller receipt</h3>
+                    <div><span>Net sales</span><b data-receipt="grossRevenue">$30.00</b></div>
+                    <div class="negative"><span>COGS</span><b data-receipt="cogs">-$8.00</b></div>
+                    <div class="negative"><span>Affiliate commission</span><b data-receipt="affiliateCommission">-$3.00</b></div>
+                    <div class="negative"><span>Platform fees</span><b data-receipt="referralFee">-$1.80</b></div>
+                    <div class="negative"><span>Shipping + ads</span><b data-receipt="shippingAds">-$9.00</b></div>
+                    <div class="positive"><span>Gross profit</span><b data-receipt="profit">$8.20</b></div>
+                </section>
             </aside>
         </section>
+
+        <p class="independence-note">MarginPath is independent and is not affiliated with, endorsed by, or sponsored by TikTok, Shopify, Etsy, Stripe, or PayPal. Verify final rates in your seller or payment account.</p>
 
         <section class="content-section" aria-labelledby="calculatorDirectory">
             <div class="section-heading">
@@ -145,56 +204,12 @@
                 </a>
             </div>
         </section>
-
-        <section class="content-section split-section">
-            <div>
-                <p class="eyebrow">Hidden fee example</p>
-                <h2>A $30 sale can become a much smaller profit</h2>
-                <p>Platform fees are only one part of seller margin. Ads, affiliate commissions, fulfillment, shipping labels, packaging, returns, and COGS can change the result fast.</p>
-            </div>
-            <table class="breakdown-table">
-                <caption>Compact ecommerce fee example</caption>
-                <tbody>
-                    <tr>
-                        <th scope="row">Sale price</th>
-                        <td>$30.00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Referral fee</th>
-                        <td>-$1.80</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Creator commission</th>
-                        <td>-$3.00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">COGS/shipping</th>
-                        <td>-$13.00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Ad spend</th>
-                        <td>-$4.00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Estimated net profit</th>
-                        <td>$8.20</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="content-section">
-            <p class="eyebrow">Transparent calculator assumptions</p>
-            <h2>Built for sellers who need editable math</h2>
-            <p>Each calculator is designed to show editable rates, formulas, examples, source links, and update dates so sellers can check the assumptions behind the estimate.</p>
-            <p>Seller Margin Tools provides educational estimates only. The calculators are not tax, legal, accounting, or platform policy advice.</p>
-        </section>
     </main>
 
     <footer class="site-footer">
         <div>
-            <strong>Seller Margin Tools</strong>
-            <p>Calculate real seller profit before fees surprise you.</p>
+            <strong>MarginPath</strong>
+            <p>Seller fee calculators by Northstar Commerce Labs.</p>
         </div>
         <nav aria-label="Footer navigation">
             <a href="about.html">About</a>
@@ -212,6 +227,7 @@
     <script src="rates.js"></script>
     <script src="calculator-core.js"></script>
     <script src="calculator-pages.js"></script>
+    <script src="sankey-renderer.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

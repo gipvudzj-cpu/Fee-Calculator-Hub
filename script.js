@@ -2,8 +2,19 @@ const rates = window.SellerRates;
 const calculators = window.SellerCalculators;
 const pageData = window.SellerCalculatorPages || {};
 const regionIds = rates.regions.map((region) => region.id).sort((a, b) => b.length - a.length);
+const supportedLanguages = ["en", "zh", "es", "de", "fr", "ja", "ko"];
+const htmlLanguageCodes = {
+    en: "en",
+    zh: "zh-CN",
+    es: "es",
+    de: "de",
+    fr: "fr",
+    ja: "ja-JP",
+    ko: "ko-KR"
+};
 
 let activeRegionId = getActiveRegionId(rates.defaultRegion);
+let activeLanguage = readStoredLanguage();
 
 const fieldDefaultAliases = {
     percentageFee: ["checkoutRate", "domesticCardRate"],
@@ -30,6 +41,18 @@ function getActiveRegionId(regionId) {
 
 function getRegion(regionId = activeRegionId) {
     return findRegion(regionId);
+}
+
+function normalizeLanguage(language) {
+    return supportedLanguages.includes(language) ? language : "en";
+}
+
+function readStoredLanguage() {
+    try {
+        return normalizeLanguage(localStorage.getItem("marginpath-language"));
+    } catch (error) {
+        return "en";
+    }
 }
 
 function getPlatformFamily(platformKey) {
@@ -82,6 +105,12 @@ function formatMoney(value, region = getRegion()) {
     return `${region.symbol}${calculators.money(value).toFixed(2)}`;
 }
 
+function formatSignedMoney(value, region = getRegion()) {
+    const amount = calculators.money(value);
+    const sign = amount < 0 ? "-" : "";
+    return `${sign}${region.symbol}${Math.abs(amount).toFixed(2)}`;
+}
+
 function formatPercent(value) {
     return `${(Number(value || 0) * 100).toFixed(1)}%`;
 }
@@ -114,23 +143,34 @@ function escapeHtml(value) {
 function headerHtml() {
     return `
         <header class="site-header">
-            <a class="brand" href="index.html" aria-label="Seller Margin Tools home">
-                <span class="brand-mark">SM</span>
+            <a class="brand" href="index.html" aria-label="MarginPath home">
+                <span class="brand-mark" aria-hidden="true"></span>
                 <span>
-                    <strong>Seller Margin Tools</strong>
-                    <small>Fee calculators for ecommerce sellers</small>
+                    <strong>MarginPath</strong>
+                    <small>by Northstar Commerce Labs</small>
                 </span>
             </a>
             <button class="menu-button" type="button" data-action="toggle-menu" aria-expanded="false" aria-controls="siteNav">Menu</button>
             <nav class="site-nav" id="siteNav" aria-label="Primary navigation">
-                <a href="tiktok-shop-fee-calculator.html">TikTok Shop</a>
-                <a href="etsy-fee-calculator.html">Etsy</a>
-                <a href="shopify-profit-calculator.html">Shopify</a>
-                <a href="break-even-roas-calculator.html">Break-even ROAS</a>
-                <a href="about.html">About</a>
+                <a href="tiktok-shop-fee-calculator.html">TikTok Shop Fee Calculator</a>
+                <a href="etsy-fee-calculator.html">Etsy Fee Calculator</a>
+                <a href="shopify-profit-calculator.html">Shopify Profit Calculator</a>
+                <a href="break-even-roas-calculator.html">ROAS</a>
                 <label class="region-control">
-                    <span>Region</span>
+                    <span>Market</span>
                     <select data-region-select aria-label="Default rate region"></select>
+                </label>
+                <label class="language-control">
+                    <span>Language</span>
+                    <select data-language-select aria-label="Interface language">
+                        <option value="en">EN</option>
+                        <option value="zh">&#31616;&#20307;&#20013;&#25991;</option>
+                        <option value="es">ES</option>
+                        <option value="de">DE</option>
+                        <option value="fr">FR</option>
+                        <option value="ja">JA</option>
+                        <option value="ko">KO</option>
+                    </select>
                 </label>
             </nav>
         </header>
@@ -141,8 +181,8 @@ function footerHtml() {
     return `
         <footer class="site-footer">
             <div>
-                <strong>Seller Margin Tools</strong>
-                <p>Calculate real seller profit before fees surprise you.</p>
+                <strong>MarginPath</strong>
+                <p>Seller fee calculators by Northstar Commerce Labs.</p>
             </div>
             <nav aria-label="Footer navigation">
                 <a href="about.html">About</a>
@@ -174,6 +214,14 @@ function hydrateRegionSelectors() {
             return `<option value="${escapeHtml(region.id)}"${disabled}>${escapeHtml(region.name + suffix)}</option>`;
         }).join("");
         select.value = activeRegionId;
+    });
+}
+
+function hydrateLanguageSelectors() {
+    document.documentElement.lang = htmlLanguageCodes[activeLanguage] || "en";
+
+    document.querySelectorAll("[data-language-select]").forEach((select) => {
+        select.value = activeLanguage;
     });
 }
 
@@ -219,6 +267,50 @@ function updateRateMeta(defaultPlatformKey) {
     });
 }
 
+function setContent(selector, value) {
+    document.querySelectorAll(selector).forEach((target) => {
+        target.textContent = value;
+    });
+}
+
+function renderHomeSankey(result, values, region) {
+    const cogs = Number(values.cogs || 0);
+    const shippingAds = Number(values.combinedShippingCost || 0) + Number(values.adSpend || 0);
+    const totalOutflow = cogs + shippingAds + result.referralFee + result.affiliateCommission;
+    const items = {
+        grossRevenue: formatMoney(result.grossRevenue, region),
+        profit: formatMoney(result.netProfit, region),
+        totalOutflow: formatSignedMoney(-totalOutflow, region),
+        cogs: formatSignedMoney(-cogs, region),
+        affiliateCommission: formatSignedMoney(-result.affiliateCommission, region),
+        referralFee: formatSignedMoney(-result.referralFee, region),
+        shippingAds: formatSignedMoney(-shippingAds, region)
+    };
+
+    Object.keys(items).forEach((key) => {
+        setContent(`[data-sankey="${key}"]`, items[key]);
+        setContent(`[data-receipt="${key}"]`, items[key]);
+    });
+
+    if (window.MarginPathSankeyRenderer) {
+        window.MarginPathSankeyRenderer.renderHomeSankeyDiagram(
+            document.querySelector("[data-sankey-canvas]"),
+            {
+                grossRevenue: result.grossRevenue,
+                netProfit: result.netProfit,
+                cogs,
+                affiliateCommission: result.affiliateCommission,
+                referralFee: result.referralFee,
+                shippingAds
+            },
+            {
+                formatMoney: (amount) => formatMoney(amount, region),
+                formatSignedMoney: (amount) => formatSignedMoney(amount, region)
+            }
+        );
+    }
+}
+
 function renderHomeCalculator() {
     const form = document.querySelector("[data-home-calculator]");
     const resultCard = document.querySelector("[data-home-results]");
@@ -244,10 +336,33 @@ function renderHomeCalculator() {
             refundAllowanceRate: 0
         });
 
-        resultCard.querySelector(".result-primary").textContent = formatMoney(result.netProfit, region);
-        resultCard.querySelector("[data-result='profitMargin']").textContent = formatPercent(result.profitMargin);
-        resultCard.querySelector("[data-result='totalFees']").textContent = formatMoney(result.totalFees, region);
-        resultCard.querySelector("[data-result='maxAdSpendBeforeLoss']").textContent = formatMoney(result.maxAdSpendBeforeLoss, region);
+        const resultPrimary = resultCard.querySelector(".result-primary");
+        const profitMargin = resultCard.querySelector("[data-result='profitMargin']");
+        const totalFees = resultCard.querySelector("[data-result='totalFees']");
+        const totalCosts = resultCard.querySelector("[data-result='totalCosts']");
+        const maxAdSpend = resultCard.querySelector("[data-result='maxAdSpendBeforeLoss']");
+
+        if (resultPrimary) {
+            resultPrimary.textContent = formatMoney(result.netProfit, region);
+        }
+
+        if (profitMargin) {
+            profitMargin.textContent = formatPercent(result.profitMargin);
+        }
+
+        if (totalFees) {
+            totalFees.textContent = formatSignedMoney(-result.totalFees, region);
+        }
+
+        if (totalCosts) {
+            totalCosts.textContent = formatSignedMoney(-result.totalCosts, region);
+        }
+
+        if (maxAdSpend) {
+            maxAdSpend.textContent = formatMoney(result.maxAdSpendBeforeLoss, region);
+        }
+
+        renderHomeSankey(result, values, region);
     }
 
     form.oninput = render;
@@ -429,9 +544,31 @@ function bindRegionSelectors() {
     });
 }
 
+function bindLanguageSelectors() {
+    document.addEventListener("change", (event) => {
+        const select = event.target.closest("[data-language-select]");
+
+        if (!select) {
+            return;
+        }
+
+        activeLanguage = normalizeLanguage(select.value);
+
+        try {
+            localStorage.setItem("marginpath-language", activeLanguage);
+        } catch (error) {
+            // The selector should still work when storage is unavailable.
+        }
+
+        hydrateLanguageSelectors();
+    });
+}
+
 hydrateSharedLayout();
 hydrateRegionSelectors();
+hydrateLanguageSelectors();
 bindMenu();
 bindRegionSelectors();
+bindLanguageSelectors();
 renderHomeCalculator();
 renderCalculatorPage();

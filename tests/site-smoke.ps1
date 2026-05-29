@@ -21,6 +21,7 @@ $requiredFiles = @(
     "rates.js",
     "calculator-core.js",
     "calculator-pages.js",
+    "sankey-renderer.js",
     "tiktok-shop-fee-calculator.html",
     "etsy-fee-calculator.html",
     "shopify-profit-calculator.html",
@@ -53,14 +54,25 @@ $calculatorPages = @(
 )
 $css = Get-Content -LiteralPath (Join-Path $root "styles.css") -Raw -Encoding UTF8
 $js = Get-Content -LiteralPath (Join-Path $root "script.js") -Raw -Encoding UTF8
+$sankeyRenderer = Get-Content -LiteralPath (Join-Path $root "sankey-renderer.js") -Raw -Encoding UTF8
 $rates = Get-Content -LiteralPath (Join-Path $root "rates.js") -Raw -Encoding UTF8
 $pages = Get-Content -LiteralPath (Join-Path $root "calculator-pages.js") -Raw -Encoding UTF8
 
 $requiredHome = @(
-    "Seller Margin Tools",
-    "Seller Fee Calculators for Ecommerce Profit Margins",
+    "MarginPath",
+    "Marketplace Fee Calculators for Ecommerce Sellers",
     "data-home-calculator",
     "data-home-results",
+    "data-profit-sankey",
+    "data-sankey-canvas",
+    "sankey-renderer.js",
+    "alluvial-flow",
+    "sankey-mobile-summary",
+    "Sankey diagram",
+    "data-language-select",
+    '<option value="es">ES</option>',
+    '<option value="ja">JA</option>',
+    "MarginPath is independent and is not affiliated with, endorsed by, or sponsored by TikTok, Shopify, Etsy, Stripe, or PayPal.",
     "TikTok Shop Fee Calculator",
     "Etsy Fee Calculator",
     "Shopify Profit Calculator",
@@ -68,7 +80,6 @@ $requiredHome = @(
     "Stripe Fee Calculator",
     "Break-even ROAS Calculator",
     "Product Pricing Calculator",
-    "Hidden fee example",
     "Privacy Policy",
     "Affiliate Disclosure",
     "Disclaimer"
@@ -76,6 +87,17 @@ $requiredHome = @(
 
 foreach ($item in $requiredHome) {
     Assert-Contains $index $item
+}
+
+if ($index -match "Seller Margin Tools") {
+    throw "Expected home page main UI to remove old Seller Margin Tools brand"
+}
+
+foreach ($file in $requiredFiles | Where-Object { $_ -like "*.html" }) {
+    $htmlContent = Get-Content -LiteralPath (Join-Path $root $file) -Raw -Encoding UTF8
+    if ($htmlContent -match "Seller Margin Tools") {
+        throw "Expected $file to use MarginPath instead of old Seller Margin Tools brand"
+    }
 }
 
 $requiredTikTok = @(
@@ -133,10 +155,16 @@ foreach ($item in $requiredPages) {
 
 $requiredCss = @(
     "@media (max-width: 760px)",
+    "@media (prefers-reduced-motion: reduce)",
     ".site-header",
-    ".hero-calculator",
+    ".marginpath-workbench",
     ".calculator-layout",
     ".result-card",
+    ".sankey-card",
+    ".sankey-stage",
+    ".marginpath-workbench > *",
+    "overflow-wrap: anywhere",
+    "overflow-x: hidden",
     ".breakdown-table",
     "border-radius: 8px"
 )
@@ -145,12 +173,20 @@ foreach ($item in $requiredCss) {
     Assert-Contains $css $item
 }
 
+if ($css -match "min\(100% -") {
+    throw "Expected responsive widths to use calc() inside min() to avoid mobile overflow"
+}
+
 $requiredJs = @(
     "renderHomeCalculator",
+    "renderHomeSankey",
+    "MarginPathSankeyRenderer",
     "renderCalculatorPage",
     "hydrateRegionSelectors",
+    "hydrateLanguageSelectors",
     "formatMoney",
     "data-region-select",
+    "data-language-select",
     "SellerCalculators",
     "resolveFieldDefault",
     "String(value ?? """")",
@@ -159,6 +195,19 @@ $requiredJs = @(
 
 foreach ($item in $requiredJs) {
     Assert-Contains $js $item
+}
+
+$requiredSankeyRenderer = @(
+    "createHomeSankeyModel",
+    "renderHomeSankeyDiagram",
+    "createRibbonPath",
+    "sankey-link-${escapeHtml(link.id)}",
+    "sankey-node-${escapeHtml(node.id)}",
+    "module.exports"
+)
+
+foreach ($item in $requiredSankeyRenderer) {
+    Assert-Contains $sankeyRenderer $item
 }
 
 Write-Host "Site smoke checks passed."
